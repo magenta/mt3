@@ -1,0 +1,9 @@
+# Configuration for ISMIR 2021 piano-only model.
+
+TASK_PREFIX = 'maestrov3_notes'
+TASK_FEATURE_LENGTHS = {'inputs': 512, 'targets': 1024}
+TRAIN_STEPS = 400000
+NUM_VELOCITY_BINS = 127
+PROGRAM_GRANULARITY = 'flat'
+ONSETS_ONLY = False
+USE_TIES = False

@@ -1,0 +1,9 @@
+# Configuration for MT3 multi-task multitrack model.
+
+TASK_PREFIX = 'mega_notes_ties'
+TASK_FEATURE_LENGTHS = {'inputs': 256, 'targets': 1024}
+TRAIN_STEPS = 1000000
+NUM_VELOCITY_BINS = 1
+PROGRAM_GRANULARITY = 'full'
+ONSETS_ONLY = False
+USE_TIES = True
