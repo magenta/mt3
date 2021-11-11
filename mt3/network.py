@@ -280,7 +280,9 @@ class Transformer(nn.Module):
     cfg = self.config
     assert encoder_input_tokens.ndim == 3  # (batch, length, depth)
 
-    # Make padding attention mask.
+    # Make padding attention mask; we don't actually mask out any input
+    # positions, letting the model potentially attend to the zero vector used as
+    # padding.
     encoder_mask = layers.make_attention_mask(
         jnp.ones(encoder_input_tokens.shape[:-1]),
         jnp.ones(encoder_input_tokens.shape[:-1]),

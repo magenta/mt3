@@ -38,7 +38,8 @@ def add_unique_id(ds: tf.data.Dataset) -> tf.data.Dataset:
   def add_id_field(i, ex):
     ex['unique_id'] = [i]
     return ex
-  return ds.enumerate().map(add_id_field)
+  return ds.enumerate().map(
+      add_id_field, num_parallel_calls=tf.data.experimental.AUTOTUNE)
 
 
 @seqio.map_over_dataset

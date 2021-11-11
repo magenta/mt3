@@ -29,7 +29,6 @@ from mt3 import vocabularies
 import note_seq
 import seqio
 import tensorflow as tf
-import tensorflow_datasets as tfds
 
 
 def write_inferences_to_file(
@@ -74,7 +73,7 @@ def write_inferences_to_file(
   targets = []
   predictions = []
 
-  for inp, output in zip(tfds.as_numpy(task_ds), inferences):
+  for inp, output in zip(task_ds.as_numpy_iterator(), inferences):
     tokens = tasks.trim_eos(vocabulary.decode_tf(output).numpy())
 
     start_time = inp['input_times'][0]
