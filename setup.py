@@ -31,6 +31,7 @@ setuptools.setup(
     scripts=[],
     install_requires=[
         'absl-py',
+        'ddsp',
         'gin-config',
         'immutabledict',
         'librosa',
