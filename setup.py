@@ -15,10 +15,18 @@
 # Lint as: python3
 """Install mt3."""
 
+import os
+import sys
 import setuptools
+
+# To enable importing version.py directly, we add its path to sys.path.
+version_path = os.path.join(os.path.dirname(__file__), 'ddsp')
+sys.path.append(version_path)
+from version import __version__  # pylint: disable=g-import-not-at-top
 
 setuptools.setup(
     name='mt3',
+    version=__version__,
     description='Multi-Task Multitrack Music Transcription',
     author='Google Inc.',
     author_email='no-reply@google.com',

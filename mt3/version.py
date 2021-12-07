@@ -12,22 +12,5 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-"""Base module for MT3."""
-
-from mt3 import datasets
-from mt3 import event_codec
-from mt3 import inference
-from mt3 import layers
-from mt3 import metrics
-from mt3 import metrics_utils
-from mt3 import models
-from mt3 import network
-from mt3 import note_sequences
-from mt3 import preprocessors
-from mt3 import run_length_encoding
-from mt3 import spectrograms
-from mt3 import summaries
-from mt3 import tasks
-from mt3 import vocabularies
-
-from mt3.version import __version__
+"""MT3 version."""
+__version__ = '0.0.1'
