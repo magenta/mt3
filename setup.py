@@ -20,7 +20,7 @@ import sys
 import setuptools
 
 # To enable importing version.py directly, we add its path to sys.path.
-version_path = os.path.join(os.path.dirname(__file__), 'ddsp')
+version_path = os.path.join(os.path.dirname(__file__), 'mt3')
 sys.path.append(version_path)
 from version import __version__  # pylint: disable=g-import-not-at-top
 
