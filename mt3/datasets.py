@@ -51,7 +51,6 @@ class DatasetConfig:
   track_specs: Sequence[note_sequences.TrackSpec] = dataclasses.field(
       default_factory=list)
 
-
 MAESTROV1_CONFIG = DatasetConfig(
     name='maestrov1',
     paths={
