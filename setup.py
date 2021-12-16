@@ -40,6 +40,7 @@ setuptools.setup(
     install_requires=[
         'absl-py',
         'ddsp',
+        'flax',
         'gin-config',
         'immutabledict',
         'librosa',
@@ -50,6 +51,7 @@ setuptools.setup(
         'scikit-learn',
         'scipy',
         'seqio',
+        't5',
         'tensorflow',
         'tensorflow-datasets',
     ],
