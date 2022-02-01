@@ -198,18 +198,24 @@ def tokenize_transcription_example(
     ds = tf.data.Dataset.from_generator(
         tokenize,
         output_signature={
-            'inputs': tf.TensorSpec(shape=(None, spectrogram_config.hop_width),
-                                    dtype=tf.float32),
-            'input_times': tf.TensorSpec(shape=(None), dtype=tf.float32),
-            'targets': tf.TensorSpec(shape=(None), dtype=tf.int32),
-            'input_event_start_indices': tf.TensorSpec(shape=(None),
-                                                       dtype=tf.int32),
-            'input_event_end_indices': tf.TensorSpec(shape=(None),
-                                                     dtype=tf.int32),
-            'state_events': tf.TensorSpec(shape=(None), dtype=tf.int32),
-            'input_state_event_indices': tf.TensorSpec(shape=(None),
-                                                       dtype=tf.int32),
-            'sequence': tf.TensorSpec(shape=(), dtype=tf.string)
+            'inputs':
+                tf.TensorSpec(
+                    shape=(None, spectrogram_config.hop_width),
+                    dtype=tf.float32),
+            'input_times':
+                tf.TensorSpec(shape=(None,), dtype=tf.float32),
+            'targets':
+                tf.TensorSpec(shape=(None,), dtype=tf.int32),
+            'input_event_start_indices':
+                tf.TensorSpec(shape=(None,), dtype=tf.int32),
+            'input_event_end_indices':
+                tf.TensorSpec(shape=(None,), dtype=tf.int32),
+            'state_events':
+                tf.TensorSpec(shape=(None,), dtype=tf.int32),
+            'input_state_event_indices':
+                tf.TensorSpec(shape=(None,), dtype=tf.int32),
+            'sequence':
+                tf.TensorSpec(shape=(), dtype=tf.string)
         },
         args=args)
 
@@ -361,18 +367,24 @@ def tokenize_example_with_program_lookup(
     ds = tf.data.Dataset.from_generator(
         tokenize,
         output_signature={
-            'inputs': tf.TensorSpec(shape=(None, spectrogram_config.hop_width),
-                                    dtype=tf.float32),
-            'input_times': tf.TensorSpec(shape=(None), dtype=tf.float32),
-            'targets': tf.TensorSpec(shape=(None), dtype=tf.int32),
-            'input_event_start_indices': tf.TensorSpec(shape=(None),
-                                                       dtype=tf.int32),
-            'input_event_end_indices': tf.TensorSpec(shape=(None),
-                                                     dtype=tf.int32),
-            'state_events': tf.TensorSpec(shape=(None), dtype=tf.int32),
-            'input_state_event_indices': tf.TensorSpec(shape=(None),
-                                                       dtype=tf.int32),
-            'sequence': tf.TensorSpec(shape=(), dtype=tf.string)
+            'inputs':
+                tf.TensorSpec(
+                    shape=(None, spectrogram_config.hop_width),
+                    dtype=tf.float32),
+            'input_times':
+                tf.TensorSpec(shape=(None,), dtype=tf.float32),
+            'targets':
+                tf.TensorSpec(shape=(None,), dtype=tf.int32),
+            'input_event_start_indices':
+                tf.TensorSpec(shape=(None,), dtype=tf.int32),
+            'input_event_end_indices':
+                tf.TensorSpec(shape=(None,), dtype=tf.int32),
+            'state_events':
+                tf.TensorSpec(shape=(None,), dtype=tf.int32),
+            'input_state_event_indices':
+                tf.TensorSpec(shape=(None,), dtype=tf.int32),
+            'sequence':
+                tf.TensorSpec(shape=(), dtype=tf.string)
         },
         args=args)
 
@@ -564,24 +576,28 @@ def tokenize_slakh_example(
     ds = tf.data.Dataset.from_generator(
         tokenize,
         output_signature={
-            'inputs': tf.TensorSpec(shape=(None, spectrogram_config.hop_width),
-                                    dtype=tf.float32),
-            'input_times': tf.TensorSpec(shape=(None), dtype=tf.float32),
-            'targets': tf.TensorSpec(shape=(None), dtype=tf.int32),
-            'input_event_start_indices': tf.TensorSpec(shape=(None),
-                                                       dtype=tf.int32),
-            'input_event_end_indices': tf.TensorSpec(shape=(None),
-                                                     dtype=tf.int32),
-            'state_events': tf.TensorSpec(shape=(None), dtype=tf.int32),
-            'input_state_event_indices': tf.TensorSpec(shape=(None),
-                                                       dtype=tf.int32),
-            'sequence': tf.TensorSpec(shape=(), dtype=tf.string)
+            'inputs':
+                tf.TensorSpec(
+                    shape=(None, spectrogram_config.hop_width),
+                    dtype=tf.float32),
+            'input_times':
+                tf.TensorSpec(shape=(None,), dtype=tf.float32),
+            'targets':
+                tf.TensorSpec(shape=(None,), dtype=tf.int32),
+            'input_event_start_indices':
+                tf.TensorSpec(shape=(None,), dtype=tf.int32),
+            'input_event_end_indices':
+                tf.TensorSpec(shape=(None,), dtype=tf.int32),
+            'state_events':
+                tf.TensorSpec(shape=(None,), dtype=tf.int32),
+            'input_state_event_indices':
+                tf.TensorSpec(shape=(None,), dtype=tf.int32),
+            'sequence':
+                tf.TensorSpec(shape=(), dtype=tf.string)
         },
         args=[
-            input_record['note_sequences'],
-            input_record['mix'],
-            input_record['audio_sample_rate'],
-            input_record['inst_names'],
+            input_record['note_sequences'], input_record['mix'],
+            input_record['audio_sample_rate'], input_record['inst_names'],
             input_record['track_id']
         ])
 
