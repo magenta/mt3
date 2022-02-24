@@ -15,7 +15,7 @@
 # - DatasetConfig.batch_size
 # - DatasetConfig.use_cached
 # - RestoreCheckpointConfig.mode
-# - ModelBasedPjitPartitioner.num_partitions
+# - PjitPartitioner.num_partitions
 
 from __gin__ import dynamic_registration
 
@@ -50,7 +50,7 @@ tasks.construct_task_name:
 eval_script.evaluate:
   model = %MODEL  # imported from separate gin file
   dataset_cfg = @utils.DatasetConfig()
-  partitioner = @partitioning.ModelBasedPjitPartitioner()
+  partitioner = @partitioning.PjitPartitioner()
   restore_checkpoint_cfg = @utils.RestoreCheckpointConfig()
   output_dir = %EVAL_OUTPUT_DIR
 
@@ -65,7 +65,7 @@ utils.DatasetConfig:
   pack = False
   use_custom_packing_ops = False
 
-partitioning.ModelBasedPjitPartitioner.num_partitions = 1
+partitioning.PjitPartitioner.num_partitions = 1
 
 utils.RestoreCheckpointConfig:
   path = %CHECKPOINT_PATH

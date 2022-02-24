@@ -11,7 +11,7 @@
 #
 # Commonly overridden options:
 # - BATCH_SIZE
-# - ModelBasedPjitPartitioner.num_partitions
+# - PjitPartitioner.num_partitions
 # - Trainer.num_microbatches
 # - USE_CACHED_TASKS: Whether to look for preprocessed SeqIO data, or preprocess
 #    on the fly.
@@ -74,7 +74,7 @@ train_script.train:
   train_eval_dataset_cfg = @train_eval/utils.DatasetConfig()
   infer_eval_dataset_cfg = @infer_eval/utils.DatasetConfig()
   checkpoint_cfg = @utils.CheckpointConfig()
-  partitioner = @partitioning.ModelBasedPjitPartitioner()
+  partitioner = @partitioning.PjitPartitioner()
   trainer_cls = @trainer.Trainer
   total_steps = %TRAIN_STEPS
   eval_steps = %EVAL_STEPS
@@ -130,7 +130,7 @@ utils.SaveCheckpointConfig:
   keep = None  # keep all checkpoints
   save_dataset = False  # don't checkpoint dataset state
 
-partitioning.ModelBasedPjitPartitioner:
+partitioning.PjitPartitioner:
   num_partitions = 1
   model_parallel_submesh = None
 

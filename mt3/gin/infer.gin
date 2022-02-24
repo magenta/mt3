@@ -20,7 +20,7 @@
 # - DatasetConfig.use_cached
 # - RestoreCheckpointConfig.is_tensorflow
 # - RestoreCheckpointConfig.mode
-# - ModelBasedPjitPartitioner.num_partitions
+# - PjitPartitioner.num_partitions
 
 from __gin__ import dynamic_registration
 
@@ -65,7 +65,7 @@ infer_script.infer:
   model = %MODEL  # imported from separate gin file
   output_dir = %INFER_OUTPUT_DIR
   dataset_cfg = @utils.DatasetConfig()
-  partitioner = @partitioning.ModelBasedPjitPartitioner()
+  partitioner = @partitioning.PjitPartitioner()
   restore_checkpoint_cfg = @utils.RestoreCheckpointConfig()
   # This is a hack, but pass an extremely large value here to make sure the
   # entire dataset fits in a single epoch. Otherwise, segments from a single
@@ -85,7 +85,7 @@ utils.DatasetConfig:
   seed = 0
   pack = False
 
-partitioning.ModelBasedPjitPartitioner.num_partitions = 1
+partitioning.PjitPartitioner.num_partitions = 1
 
 utils.RestoreCheckpointConfig:
   path = %CHECKPOINT_PATH
