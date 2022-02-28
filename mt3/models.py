@@ -124,13 +124,17 @@ class ContinuousInputsEncoderDecoderModel(models.EncoderDecoderModel):
   FEATURE_CONVERTER_CLS = ContinuousInputsEncDecFeatureConverter
 
   def __init__(self, module, input_vocabulary, output_vocabulary, optimizer_def,
-               input_depth, decode_fn=decoding.beam_search):
+               input_depth, decode_fn=decoding.beam_search, label_smoothing=0.0,
+               z_loss=0.0, loss_normalizing_factor=None):
     super().__init__(
         module=module,
         input_vocabulary=input_vocabulary,
         output_vocabulary=output_vocabulary,
         optimizer_def=optimizer_def,
-        decode_fn=decode_fn)
+        decode_fn=decode_fn,
+        label_smoothing=label_smoothing,
+        z_loss=z_loss,
+        loss_normalizing_factor=loss_normalizing_factor)
     self._input_depth = input_depth
 
   def get_initial_variables(self, rng, input_shapes, input_types=None):

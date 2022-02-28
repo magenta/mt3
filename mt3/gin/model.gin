@@ -12,7 +12,7 @@ from t5x import adafactor
 Z_LOSS = 0.0001
 LABEL_SMOOTHING = 0.0
 LOSS_NORMALIZING_FACTOR = None
-models.ContinuousInputsEncoderDecoderModel.loss_fn:
+models.ContinuousInputsEncoderDecoderModel:
   z_loss = %Z_LOSS
   label_smoothing = %LABEL_SMOOTHING
   loss_normalizing_factor = %LOSS_NORMALIZING_FACTOR
