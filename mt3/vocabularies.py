@@ -217,7 +217,7 @@ class GenericTokenVocabulary(seqio.Vocabulary):
         return DECODED_INVALID_ID
       else:
         return encoded_id - self._num_special_tokens
-    ids = [_decode_id(i) for i in ids]
+    ids = [_decode_id(int(i)) for i in ids]
     return ids
 
   def _encode_tf(self, token_ids: tf.Tensor) -> tf.Tensor:
