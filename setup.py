@@ -51,7 +51,7 @@ setuptools.setup(
         'scipy == 1.7.3',
         'seqio == 0.0.8',
         't5 == 0.9.3',
-        'tensorflow',
+        'tensorflow == 2.9.1',
         'tensorflow-datasets == 4.6.0',
     ],
     classifiers=[
