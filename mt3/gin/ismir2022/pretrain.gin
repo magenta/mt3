@@ -1,0 +1,13 @@
+include 'train.gin'
+
+TASK_FEATURE_LENGTHS = {'inputs': 256, 'targets': 1024}
+TRAIN_STEPS = 500000
+BATCH_SIZE = 1024
+LABEL_SMOOTHING = 0.1
+NUM_VELOCITY_BINS = 1
+PROGRAM_GRANULARITY = 'full'
+ONSETS_ONLY = False
+USE_TIES = True
+MAX_EXAMPLES_PER_MIX = 8
+
+network.T5Config.dropout_rate = 0.0

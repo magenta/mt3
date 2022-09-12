@@ -20,6 +20,7 @@ from typing import Optional, Sequence
 from mt3 import datasets
 from mt3 import event_codec
 from mt3 import metrics
+from mt3 import mixing
 from mt3 import preprocessors
 from mt3 import run_length_encoding
 from mt3 import spectrograms
@@ -162,7 +163,13 @@ def add_transcription_task_to_registry(
           functools.partial(preprocessors.map_midi_programs, codec=codec),
           run_length_encoding.run_length_encode_shifts_fn(
               codec,
-              feature_key='targets',
+              feature_key='targets'),
+          functools.partial(
+              mixing.mix_transcription_examples,
+              codec=codec,
+              targets_feature_keys=['targets']),
+          run_length_encoding.remove_redundant_state_changes_fn(
+              feature_key='targets', codec=codec,
               state_change_event_types=['velocity', 'program']),
           functools.partial(
               preprocessors.compute_spectrograms,
@@ -315,6 +322,18 @@ add_transcription_task_to_registry(
     onsets_only=False,
     include_ties=True)
 
+# Transcribe MusicNetEM, with ties.
+add_transcription_task_to_registry(
+    dataset_config=datasets.MUSICNET_EM_CONFIG,
+    spectrogram_config=SPECTROGRAM_CONFIG,
+    vocab_config=VOCAB_CONFIG_NOVELOCITY,
+    tokenize_fn=functools.partial(
+        preprocessors.tokenize_transcription_example,
+        audio_is_samples=True,
+        id_feature_key='id'),
+    onsets_only=False,
+    include_ties=True)
+
 # Transcribe Cerberus4 (piano-guitar-bass-drums quartets), with ties.
 add_transcription_task_to_registry(
     dataset_config=datasets.CERBERUS4_CONFIG,
@@ -339,9 +358,10 @@ add_transcription_task_to_registry(
     onsets_only=False,
     include_ties=True)
 
+
 # Construct task names to include in transcription mixture.
 MIXTURE_DATASET_NAMES = [
-    'maestrov3', 'guitarset', 'urmp', 'musicnet', 'cerberus4', 'slakh'
+    'maestrov3', 'guitarset', 'urmp', 'musicnet_em', 'cerberus4', 'slakh'
 ]
 MIXTURE_TRAIN_TASK_NAMES = []
 MIXTURE_EVAL_TASK_NAMES = []

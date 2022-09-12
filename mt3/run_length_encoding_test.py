@@ -18,6 +18,7 @@ from mt3 import event_codec
 from mt3 import run_length_encoding
 
 import note_seq
+import numpy as np
 import seqio
 import tensorflow as tf
 
@@ -37,11 +38,22 @@ codec = event_codec.Codec(
     ])
 run_length_encode_shifts = run_length_encoding.run_length_encode_shifts_fn(
     codec=codec)
-run_length_encode_shifts_drop_redundant = run_length_encoding.run_length_encode_shifts_fn(
-    codec=codec, state_change_event_types=['velocity', 'program'])
 
 
 class RunLengthEncodingTest(tf.test.TestCase):
+
+  def test_remove_redundant_state_changes(self):
+    og_dataset = tf.data.Dataset.from_tensors({
+        'targets': [3, 525, 356, 161, 2, 525, 356, 161, 355, 394]
+    })
+
+    assert_dataset(
+        run_length_encoding.remove_redundant_state_changes_fn(
+            codec=codec,
+            state_change_event_types=['velocity', 'program'])(og_dataset),
+        {
+            'targets': [3, 525, 356, 161, 2, 161, 355, 394],
+        })
 
   def test_run_length_encode_shifts(self):
     og_dataset = tf.data.Dataset.from_tensors({
@@ -76,16 +88,19 @@ class RunLengthEncodingTest(tf.test.TestCase):
             'targets': [3, 161, 162],
         })
 
-  def test_run_length_encode_shifts_drop_redundant(self):
-    og_dataset = tf.data.Dataset.from_tensors({
-        'targets': [1, 1, 1, 525, 356, 161, 1, 1, 525, 356, 161, 355, 394]
-    })
-
-    assert_dataset(
-        run_length_encode_shifts_drop_redundant(og_dataset),
-        {
-            'targets': [3, 525, 356, 161, 5, 161, 355, 394],
-        })
+  def test_merge_run_length_encoded_targets(self):
+    # pylint: disable=bad-whitespace
+    targets = np.array([
+        [  3, 161, 162,   5, 163],
+        [160, 164,   3, 165,   0]
+    ])
+    # pylint: enable=bad-whitespace
+    merged_targets = run_length_encoding.merge_run_length_encoded_targets(
+        targets=targets, codec=codec)
+    expected_merged_targets = [
+        160, 164, 3, 161, 162, 165, 5, 163
+    ]
+    np.testing.assert_array_equal(expected_merged_targets, merged_targets)
 
 
 if __name__ == '__main__':

@@ -20,6 +20,7 @@ from __gin__ import dynamic_registration
 
 import __main__ as train_script
 import seqio
+from mt3 import mixing
 from mt3 import preprocessors
 from mt3 import tasks
 from mt3 import vocabularies
@@ -56,6 +57,10 @@ vocabularies.VocabularyConfig.num_velocity_bins = %NUM_VELOCITY_BINS
 # Program granularity: set to 'flat', 'midi_class', or 'full'
 PROGRAM_GRANULARITY = %gin.REQUIRED
 preprocessors.map_midi_programs.granularity_type = %PROGRAM_GRANULARITY
+
+# Maximum number of examples per mix, or None for no mixing
+MAX_EXAMPLES_PER_MIX = None
+mixing.mix_transcription_examples.max_examples_per_mix = %MAX_EXAMPLES_PER_MIX
 
 train/tasks.construct_task_name:
   task_prefix = %TASK_PREFIX

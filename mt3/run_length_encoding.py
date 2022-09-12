@@ -191,26 +191,67 @@ def extract_target_sequence_with_indices(features, state_events_end_token=None):
   return features
 
 
-def run_length_encode_shifts_fn(
+def remove_redundant_state_changes_fn(
     codec: event_codec.Codec,
     feature_key: str = 'targets',
     state_change_event_types: Sequence[str] = ()
+) -> Callable[[Mapping[str, Any]], Mapping[str, Any]]:
+  """Return preprocessing function that removes redundant state change events.
+
+  Args:
+    codec: The event_codec.Codec used to interpret the events.
+    feature_key: The feature key for which to remove redundant state changes.
+    state_change_event_types: A list of event types that represent state
+        changes; tokens corresponding to these event types will be interpreted
+        as state changes and redundant ones will be removed.
+
+  Returns:
+    A preprocessing function that removes redundant state change events.
+  """
+  state_change_event_ranges = [codec.event_type_range(event_type)
+                               for event_type in state_change_event_types]
+
+  def remove_redundant_state_changes(
+      features: MutableMapping[str, Any],
+  ) -> Mapping[str, Any]:
+    """Remove redundant tokens e.g. duplicate velocity changes from sequence."""
+    current_state = tf.zeros(len(state_change_event_ranges), dtype=tf.int32)
+    output = tf.constant([], dtype=tf.int32)
+
+    for event in features[feature_key]:
+      # Let autograph know that the shape of 'output' will change during the
+      # loop.
+      tf.autograph.experimental.set_loop_options(
+          shape_invariants=[(output, tf.TensorShape([None]))])
+      is_redundant = False
+      for i, (min_index, max_index) in enumerate(state_change_event_ranges):
+        if (min_index <= event) and (event <= max_index):
+          if current_state[i] == event:
+            is_redundant = True
+          current_state = tf.tensor_scatter_nd_update(
+              current_state, indices=[[i]], updates=[event])
+      if not is_redundant:
+        output = tf.concat([output, [event]], axis=0)
+
+    features[feature_key] = output
+    return features
+
+  return seqio.map_over_dataset(remove_redundant_state_changes)
+
+
+def run_length_encode_shifts_fn(
+    codec: event_codec.Codec,
+    feature_key: str = 'targets'
 ) -> Callable[[Mapping[str, Any]], Mapping[str, Any]]:
   """Return a function that run-length encodes shifts for a given codec.
 
   Args:
     codec: The Codec to use for shift events.
     feature_key: The feature key for which to run-length encode shifts.
-    state_change_event_types: A list of event types that represent state
-        changes; tokens corresponding to these event types will be interpreted
-        as state changes and redundant ones will be removed.
 
   Returns:
     A preprocessing function that run-length encodes single-step shifts.
   """
-  state_change_event_ranges = [codec.event_type_range(event_type)
-                               for event_type in state_change_event_types]
-
   def run_length_encode_shifts(
       features: MutableMapping[str, Any]
   ) -> Mapping[str, Any]:
@@ -228,8 +269,6 @@ def run_length_encode_shifts_fn(
     total_shift_steps = 0
     output = tf.constant([], dtype=tf.int32)
 
-    current_state = tf.zeros(len(state_change_event_ranges), dtype=tf.int32)
-
     for event in events:
       # Let autograph know that the shape of 'output' will change during the
       # loop.
@@ -240,18 +279,6 @@ def run_length_encode_shifts_fn(
         total_shift_steps += 1
 
       else:
-        # If this event is a state change and has the same value as the current
-        # state, we can skip it entirely.
-        is_redundant = False
-        for i, (min_index, max_index) in enumerate(state_change_event_ranges):
-          if (min_index <= event) and (event <= max_index):
-            if current_state[i] == event:
-              is_redundant = True
-            current_state = tf.tensor_scatter_nd_update(
-                current_state, indices=[[i]], updates=[event])
-        if is_redundant:
-          continue
-
         # Once we've reached a non-shift event, RLE all previous shift events
         # before outputting the non-shift event.
         if shift_steps > 0:
@@ -266,6 +293,79 @@ def run_length_encode_shifts_fn(
     return features
 
   return seqio.map_over_dataset(run_length_encode_shifts)
+
+
+def merge_run_length_encoded_targets(
+    targets: np.ndarray,
+    codec: event_codec.Codec
+) -> Sequence[int]:
+  """Merge multiple tracks of target events into a single stream.
+
+  Args:
+    targets: A 2D array (# tracks by # events) of integer event values.
+    codec: The event_codec.Codec used to interpret the events.
+
+  Returns:
+    A 1D array of merged events.
+  """
+  num_tracks = tf.shape(targets)[0]
+  targets_length = tf.shape(targets)[1]
+
+  current_step = 0
+  current_offsets = tf.zeros(num_tracks, dtype=tf.int32)
+
+  output = tf.constant([], dtype=tf.int32)
+  done = tf.constant(False)
+
+  while not done:
+    # Let autograph know that the shape of 'output' will change during the loop.
+    tf.autograph.experimental.set_loop_options(
+        shape_invariants=[(output, tf.TensorShape([None]))])
+
+    # Determine which targets track has the earliest next step.
+    next_step = codec.max_shift_steps + 1
+    next_track = -1
+    for i in range(num_tracks):
+      if (current_offsets[i] == targets_length or
+          targets[i][current_offsets[i]] == 0):
+        # Already reached the end of this targets track.
+        # (Zero is technically a valid shift event but we never actually use it;
+        #  it is always padding.)
+        continue
+      if not codec.is_shift_event_index(targets[i][current_offsets[i]]):
+        # The only way we would be at a non-shift event is if we have not yet
+        # reached the first shift event, which means we're at step zero.
+        next_step = 0
+        next_track = i
+      elif targets[i][current_offsets[i]] < next_step:
+        next_step = targets[i][current_offsets[i]]
+        next_track = i
+
+    if next_track == -1:
+      # We've already merged all of the target tracks in their entirety.
+      done = tf.constant(True)
+      break
+
+    if next_step == current_step and next_step > 0:
+      # We don't need to include the shift event itself as it's the same step as
+      # the previous shift.
+      start_offset = current_offsets[next_track] + 1
+    else:
+      start_offset = current_offsets[next_track]
+
+    # Merge in events up to but not including the next shift.
+    end_offset = start_offset + 1
+    while end_offset < targets_length and not codec.is_shift_event_index(
+        targets[next_track][end_offset]):
+      end_offset += 1
+    output = tf.concat(
+        [output, targets[next_track][start_offset:end_offset]], axis=0)
+
+    current_step = next_step
+    current_offsets = tf.tensor_scatter_nd_update(
+        current_offsets, indices=[[next_track]], updates=[end_offset])
+
+  return output
 
 
 def decode_events(
