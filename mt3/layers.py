@@ -569,7 +569,7 @@ class FixedEmbed(nn.Module):
   def setup(self):
     # The key is set to None because sinusoid init is deterministic.
     shape = (self.max_length, self.features)
-    self.embedding = self.embedding_init(None, shape, self.dtype)  # pylint: disable=too-many-function-args
+    self.embedding = self.embedding_init(None, shape, self.dtype)  # pylint: disable=too-many-function-args  # pytype: disable=wrong-arg-types  # jax-ndarray
 
   @nn.compact
   def __call__(self,
@@ -827,4 +827,4 @@ def make_decoder_mask(decoder_target_tokens: Array,
         make_attention_mask(
             decoder_segment_ids, decoder_segment_ids, jnp.equal, dtype=dtype))
 
-  return combine_masks(*masks, dtype=dtype)
+  return combine_masks(*masks, dtype=dtype)  # pytype: disable=bad-return-type  # jax-ndarray
