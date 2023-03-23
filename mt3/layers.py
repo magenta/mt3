@@ -179,7 +179,7 @@ class MultiHeadDotProductAttention(nn.Module):
   head_dim: int
   dtype: DType = jnp.float32
   dropout_rate: float = 0.
-  kernel_init: Initializer = nn.initializers.variance_scaling(
+  kernel_init: Initializer = nn.initializers.variance_scaling(  # pytype: disable=annotation-type-mismatch  # jax-types
       1.0, 'fan_in', 'normal')
   float32_logits: bool = False  # computes logits in float32 for stability.
 
@@ -382,7 +382,7 @@ class DenseGeneral(nn.Module):
   features: Union[Iterable[int], int]
   axis: Union[Iterable[int], int] = -1
   dtype: DType = jnp.float32
-  kernel_init: Initializer = nn.initializers.variance_scaling(
+  kernel_init: Initializer = nn.initializers.variance_scaling(  # pytype: disable=annotation-type-mismatch  # jax-types
       1.0, 'fan_in', 'truncated_normal')
   kernel_axes: Tuple[str, ...] = ()
 
@@ -446,7 +446,7 @@ class MlpBlock(nn.Module):
   """
   intermediate_dim: int = 2048
   activations: Sequence[Union[str, Callable]] = ('relu',)
-  kernel_init: Initializer = nn.initializers.variance_scaling(
+  kernel_init: Initializer = nn.initializers.variance_scaling(  # pytype: disable=annotation-type-mismatch  # jax-types
       1.0, 'fan_in', 'truncated_normal')
   intermediate_dropout_rate: float = 0.1
   dtype: Any = jnp.float32
@@ -502,7 +502,7 @@ class Embed(nn.Module):
   cast_input_dtype: Optional[DType] = None
   dtype: DType = jnp.float32
   attend_dtype: Optional[DType] = None
-  embedding_init: Initializer = default_embed_init
+  embedding_init: Initializer = default_embed_init  # pytype: disable=annotation-type-mismatch  # jax-types
   one_hot: bool = False
   embedding: Array = dataclasses.field(init=False)
 
