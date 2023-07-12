@@ -38,7 +38,6 @@ setuptools.setup(
     scripts=[],
     install_requires=[
         'absl-py',
-        'ddsp',
         'flax @ git+https://github.com/google/flax#egg=flax',
         'gin-config',
         'immutabledict',

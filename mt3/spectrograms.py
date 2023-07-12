@@ -16,7 +16,7 @@
 
 import dataclasses
 
-from ddsp import spectral_ops
+from mt3 import spectral_ops
 import tensorflow as tf
 
 # defaults for spectrogram config
