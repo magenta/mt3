@@ -6,7 +6,7 @@ This is not an officially supported Google product.
 
 ## Transcribe your own audio
 
-Use our [colab notebook](https://colab.research.google.com/github/magenta/mt3/blob/main/mt3/colab/music_transcription_with_transformers.ipynb) to
+Use our [colab notebook](https://github.com/zcwang99/mt3-plus-ismir2022/blob/main/mt3/colab/music_transcription_with_transformers.ipynb) to
 transcribe audio files of your choosing.  You can use a pretrained checkpoint from
 
 a) the piano transcription model described in [our ISMIR 2021 paper](https://archives.ismir.net/ismir2021/paper/000030.pdf)
