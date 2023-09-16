@@ -1,9 +1,0 @@
-# Configuration for ismir2022_small multi-task multitrack model.
-
-network.T5Config:
-  emb_dim = 512
-  num_heads = 6
-  num_encoder_layers = 8
-  num_decoder_layers = 8
-  head_dim = 64
-  mlp_dim = 1024
