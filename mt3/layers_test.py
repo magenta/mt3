@@ -500,7 +500,7 @@ class DenseTest(parameterized.TestCase):
         dtype=np.float32)
     params = module.init(random.PRNGKey(0), inputs, deterministic=True)
     self.assertEqual(
-        jax.tree_map(lambda a: a.tolist(), params), {
+        jax.tree.map(lambda a: a.tolist(), params), {
             'params': {
                 'wi': {
                     'kernel': [[
