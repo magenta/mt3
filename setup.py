@@ -43,7 +43,7 @@ setuptools.setup(
         'immutabledict',
         'librosa',
         'mir_eval',
-        'note_seq',
+        'note-seq @ git+https://github.com/magenta/note-seq#egg=note_seq',
         'numpy',
         'pretty_midi',
         'scikit-learn',
