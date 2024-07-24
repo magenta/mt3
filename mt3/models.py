@@ -14,7 +14,7 @@
 
 """Feature converter and model for continuous inputs."""
 
-from typing import Mapping
+from typing import Mapping, Sequence, Union
 import seqio
 from t5x import decoding
 from t5x import models
@@ -98,7 +98,8 @@ class ContinuousInputsEncDecFeatureConverter(seqio.FeatureConverter):
         convert_example, num_parallel_calls=tf.data.experimental.AUTOTUNE)
 
   def get_model_feature_lengths(
-      self, task_feature_lengths: Mapping[str, int]) -> Mapping[str, int]:
+      self, task_feature_lengths: Mapping[str, Union[int, Sequence[int]]]
+  ) -> Mapping[str, Union[int, Sequence[int]]]:
     """Define the length relationship between input and output features."""
     encoder_length = task_feature_lengths["inputs"]
     decoder_length = task_feature_lengths["targets"]
