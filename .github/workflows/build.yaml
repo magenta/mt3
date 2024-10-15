@@ -37,7 +37,6 @@ jobs:
     - name: Test with pytest
       # TODO(adarob): Re-enable once tests are updated.
       run: |
-        export FLAX_LAZY_RNG=no
         pytest mt3/
     # The below step just reports the success or failure of tests as a "commit status".
     # This is needed for copybara integration.
