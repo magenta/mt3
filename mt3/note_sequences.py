@@ -239,7 +239,7 @@ def note_event_data_to_events(
       else:
         # program + velocity + pitch
         if state is not None:
-          state.active_pitches[(value.pitch, value.program)] = velocity_bin
+          state.active_pitches[(value.pitch, int(value.program))] = velocity_bin
         return [event_codec.Event('program', value.program),
                 event_codec.Event('velocity', velocity_bin),
                 event_codec.Event('pitch', value.pitch)]
