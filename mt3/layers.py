@@ -589,7 +589,7 @@ class FixedEmbed(nn.Module):
     if decode:
       position_embedder_index = self.variable(
           'cache', 'position_embedder_index',
-          lambda: jnp.array(-1, dtype=jnp.uint32))
+          lambda: jnp.array(-1).astype(jnp.uint32))
       i = position_embedder_index.value
       position_embedder_index.value = i + 1
       return jax.lax.dynamic_slice(self.embedding, jnp.array((i, 0)),
