@@ -1,4 +1,4 @@
-# Copyright 2025 The MT3 Authors.
+# Copyright 2026 The MT3 Authors.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -68,7 +68,7 @@ def write_inferences_to_file(
   else:
     encoding_spec = note_sequences.NoteEncodingWithTiesSpec
 
-  codec = vocabularies.build_codec(vocab_config)
+  codec = vocabularies.build_codec(vocab_config)  # pyrefly: ignore[bad-argument-type]
 
   targets = []
   predictions = []

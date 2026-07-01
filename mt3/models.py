@@ -1,4 +1,4 @@
-# Copyright 2025 The MT3 Authors.
+# Copyright 2026 The MT3 Authors.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -131,7 +131,7 @@ class ContinuousInputsEncoderDecoderModel(models.EncoderDecoderModel):
         input_vocabulary=input_vocabulary,
         output_vocabulary=output_vocabulary,
         optimizer_def=optimizer_def,
-        decode_fn=decode_fn,
+        decode_fn=decode_fn,  # pyrefly: ignore[bad-argument-type]
         label_smoothing=label_smoothing,
         z_loss=z_loss,
         loss_normalizing_factor=loss_normalizing_factor)

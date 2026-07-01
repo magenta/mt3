@@ -1,4 +1,4 @@
-# Copyright 2025 The MT3 Authors.
+# Copyright 2026 The MT3 Authors.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -57,10 +57,10 @@ def construct_task_name(
 
 def trim_eos(tokens: Sequence[int]) -> np.ndarray:
   """If EOS is present, remove it and everything after."""
-  tokens = np.array(tokens, np.int32)
+  tokens = np.array(tokens, np.int32)  # pyrefly: ignore[bad-assignment]
   if vocabularies.DECODED_EOS_ID in tokens:
-    tokens = tokens[:np.argmax(tokens == vocabularies.DECODED_EOS_ID)]
-  return tokens
+    tokens = tokens[:np.argmax(tokens == vocabularies.DECODED_EOS_ID)]  # pyrefly: ignore[bad-index]
+  return tokens  # pyrefly: ignore[bad-return]
 
 
 def postprocess(tokens, example, is_target, codec):
@@ -102,7 +102,7 @@ def add_transcription_task_to_registry(
 
   output_features = {
       'targets': seqio.Feature(vocabulary=vocabulary),
-      'inputs': seqio.ContinuousFeature(dtype=tf.float32, rank=2)
+      'inputs': seqio.ContinuousFeature(dtype=tf.float32, rank=2)  # pyrefly: ignore[unexpected-keyword]
   }
 
   task_name = 'onsets' if onsets_only else 'notes'
@@ -125,7 +125,7 @@ def add_transcription_task_to_registry(
   # Add transcription training task.
   seqio.TaskRegistry.add(
       train_task_name,
-      source=seqio.TFExampleDataSource(
+      source=seqio.TFExampleDataSource(  # pyrefly: ignore[bad-argument-type]
           split_to_filepattern={
               'train': dataset_config.paths[dataset_config.train_split],
               'eval': dataset_config.paths[dataset_config.train_eval_split]
@@ -196,7 +196,7 @@ def add_transcription_task_to_registry(
 
     seqio.TaskRegistry.add(
         eval_task_name,
-        source=seqio.TFExampleDataSource(
+        source=seqio.TFExampleDataSource(  # pyrefly: ignore[bad-argument-type]
             split_to_filepattern={'eval': dataset_config.paths[split.name]},
             feature_description=dataset_config.features),
         output_features=output_features,

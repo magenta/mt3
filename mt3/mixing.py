@@ -1,4 +1,4 @@
-# Copyright 2025 The MT3 Authors.
+# Copyright 2026 The MT3 Authors.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -59,10 +59,10 @@ def mix_transcription_examples(
     Dataset containing mixed examples.
   """
   if max_examples_per_mix is None:
-    return ds
+    return ds  # pyrefly: ignore[bad-return]
 
   # TODO(iansimon): is there a way to use seqio's seed?
-  ds = tf.data.Dataset.sample_from_datasets([
+  ds = tf.data.Dataset.sample_from_datasets([  # pyrefly: ignore[bad-argument-type]
       ds.shuffle(
           buffer_size=shuffle_buffer_size // max_examples_per_mix
       ).padded_batch(batch_size=i) for i in range(1, max_examples_per_mix + 1)

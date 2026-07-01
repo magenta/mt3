@@ -1,4 +1,4 @@
-# Copyright 2025 The MT3 Authors.
+# Copyright 2026 The MT3 Authors.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -98,12 +98,12 @@ def _example_to_note_sequence(
       assert len(onset_times) == len(velocities)
 
       ns = note_sequences.note_arrays_to_note_sequence(
-          onset_times=onset_times, offset_times=offset_times,
-          pitches=pitches, velocities=velocities)
+          onset_times=onset_times, offset_times=offset_times,  # pyrefly: ignore[bad-argument-type]
+          pitches=pitches, velocities=velocities)  # pyrefly: ignore[bad-argument-type]
 
     else:
       ns = note_sequences.note_arrays_to_note_sequence(
-          onset_times=onset_times, pitches=pitches)
+          onset_times=onset_times, pitches=pitches)  # pyrefly: ignore[bad-argument-type]
 
   return sequences_lib.trim_note_sequence(ns, 0, num_seconds)
 
@@ -205,17 +205,17 @@ def _examples_to_pianorolls(
   def ex_to_ns(example, prefix):
     return _example_to_note_sequence(
         example=example,
-        ns_feature_name=(prefix + ns_feature_suffix
+        ns_feature_name=(prefix + ns_feature_suffix  # pyrefly: ignore[bad-argument-type]
                          if ns_feature_suffix else None),
-        note_onset_feature_name=(prefix + note_onset_feature_suffix
+        note_onset_feature_name=(prefix + note_onset_feature_suffix  # pyrefly: ignore[bad-argument-type]
                                  if note_onset_feature_suffix else None),
-        note_offset_feature_name=(prefix + note_offset_feature_suffix
+        note_offset_feature_name=(prefix + note_offset_feature_suffix  # pyrefly: ignore[bad-argument-type]
                                   if note_offset_feature_suffix else None),
         note_frequency_feature_name=(
-            prefix + note_frequency_feature_suffix
+            prefix + note_frequency_feature_suffix  # pyrefly: ignore[bad-argument-type]
             if note_frequency_feature_suffix else None),
         note_confidence_feature_name=(
-            prefix + note_confidence_feature_suffix
+            prefix + note_confidence_feature_suffix  # pyrefly: ignore[bad-argument-type]
             if note_confidence_feature_suffix else None),
         num_seconds=num_seconds)
 
@@ -426,17 +426,17 @@ def transcription_summaries(
   def synthesize(examples, prefix):
     return _synthesize_example_notes(
         examples=examples,
-        ns_feature_name=(prefix + ns_feature_suffix
+        ns_feature_name=(prefix + ns_feature_suffix  # pyrefly: ignore[bad-argument-type]
                          if ns_feature_suffix else None),
-        note_onset_feature_name=(prefix + note_onset_feature_suffix
+        note_onset_feature_name=(prefix + note_onset_feature_suffix  # pyrefly: ignore[bad-argument-type]
                                  if note_onset_feature_suffix else None),
-        note_offset_feature_name=(prefix + note_offset_feature_suffix
+        note_offset_feature_name=(prefix + note_offset_feature_suffix  # pyrefly: ignore[bad-argument-type]
                                   if note_offset_feature_suffix else None),
         note_frequency_feature_name=(
-            prefix + note_frequency_feature_suffix
+            prefix + note_frequency_feature_suffix  # pyrefly: ignore[bad-argument-type]
             if note_frequency_feature_suffix else None),
         note_confidence_feature_name=(
-            prefix + note_confidence_feature_suffix
+            prefix + note_confidence_feature_suffix  # pyrefly: ignore[bad-argument-type]
             if note_confidence_feature_suffix else None),
         sample_rate=spectrogram_config.sample_rate,
         num_seconds=num_seconds)
@@ -446,11 +446,11 @@ def transcription_summaries(
   onset_pianoroll_images, full_pianoroll_images = _examples_to_pianorolls(
       targets=targets,
       predictions=predictions,
-      ns_feature_suffix=ns_feature_suffix,
-      note_onset_feature_suffix=note_onset_feature_suffix,
-      note_offset_feature_suffix=note_offset_feature_suffix,
-      note_frequency_feature_suffix=note_frequency_feature_suffix,
-      note_confidence_feature_suffix=note_confidence_feature_suffix,
+      ns_feature_suffix=ns_feature_suffix,  # pyrefly: ignore[bad-argument-type]
+      note_onset_feature_suffix=note_onset_feature_suffix,  # pyrefly: ignore[bad-argument-type]
+      note_offset_feature_suffix=note_offset_feature_suffix,  # pyrefly: ignore[bad-argument-type]
+      note_frequency_feature_suffix=note_frequency_feature_suffix,  # pyrefly: ignore[bad-argument-type]
+      note_confidence_feature_suffix=note_confidence_feature_suffix,  # pyrefly: ignore[bad-argument-type]
       track_specs=track_specs,
       num_seconds=num_seconds,
       frames_per_second=pianoroll_frames_per_second)

@@ -1,4 +1,4 @@
-# Copyright 2025 The MT3 Authors.
+# Copyright 2026 The MT3 Authors.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -124,8 +124,8 @@ def encode_and_index_events(
     while(len(event_start_indices) < len(frame_times) and
           frame_times[len(event_start_indices)] <
           cur_step / codec.steps_per_second):
-      event_start_indices.append(cur_event_idx)
-      state_event_indices.append(cur_state_event_idx)
+      event_start_indices.append(cur_event_idx)  # pyrefly: ignore[missing-attribute]
+      state_event_indices.append(cur_state_event_idx)  # pyrefly: ignore[missing-attribute]
 
   for event_step, event_value in zip(event_steps, event_values):
     while event_step > cur_step:
@@ -163,7 +163,7 @@ def encode_and_index_events(
   event_end_indices = np.array(event_end_indices)
   state_event_indices = np.array(state_event_indices)
 
-  return (events, event_start_indices, event_end_indices,
+  return (events, event_start_indices, event_end_indices,  # pyrefly: ignore[bad-return]
           state_events, state_event_indices)
 
 

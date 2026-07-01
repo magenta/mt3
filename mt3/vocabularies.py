@@ -1,4 +1,4 @@
-# Copyright 2025 The MT3 Authors.
+# Copyright 2026 The MT3 Authors.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -235,8 +235,8 @@ class GenericTokenVocabulary(seqio.Vocabulary):
          tf.debugging.assert_greater_equal(
              token_ids, tf.cast(0, token_ids.dtype))
          ]):
-      tf_ids = token_ids + self._num_special_tokens
-    return tf_ids
+      tf_ids = token_ids + self._num_special_tokens  # pyrefly: ignore[unsupported-operation]
+    return tf_ids  # pyrefly: ignore[bad-return]
 
   def _decode_tf(self, ids: tf.Tensor) -> tf.Tensor:
     """Decode in TensorFlow.
@@ -267,7 +267,7 @@ class GenericTokenVocabulary(seqio.Vocabulary):
             tf.logical_and(
                 tf.greater_equal(ids, self._num_special_tokens),
                 tf.less(ids, self._base_vocab_size)),
-            ids - self._num_special_tokens,
+            ids - self._num_special_tokens,  # pyrefly: ignore[unsupported-operation]
             DECODED_INVALID_ID))
 
   def __eq__(self, other):

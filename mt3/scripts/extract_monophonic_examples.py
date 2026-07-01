@@ -1,4 +1,4 @@
-# Copyright 2025 The MT3 Authors.
+# Copyright 2026 The MT3 Authors.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -240,7 +240,7 @@ def main(unused_argv):
         continue
       logging.info('processing %s...', filename)
       for ex in process_wav_file(
-          os.path.join(_INPUT_DIR.value, filename), crepe, counters):
+          os.path.join(_INPUT_DIR.value, filename), crepe, counters):  # pyrefly: ignore[no-matching-overload]
         writer.write(ex.SerializeToString())
       counters['wav_files_processed'] += 1
   for k, v in counters.items():

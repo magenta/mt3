@@ -1,4 +1,4 @@
-# Copyright 2025 The MT3 Authors.
+# Copyright 2026 The MT3 Authors.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -64,7 +64,7 @@ def _audio_to_frames(
   """Convert audio samples to non-overlapping frames and frame times."""
   frame_size = spectrogram_config.hop_width
   logging.info('Padding %d samples to multiple of %d', len(samples), frame_size)
-  samples = np.pad(samples,
+  samples = np.pad(samples,  # pyrefly: ignore[bad-assignment]
                    [0, frame_size - len(samples) % frame_size],
                    mode='constant')
 
@@ -167,9 +167,9 @@ def tokenize_transcription_example(
              event_values=values,
              encode_event_fn=note_sequences.note_event_data_to_events,
              codec=codec,
-             frame_times=frame_times,
+             frame_times=frame_times,  # pyrefly: ignore[bad-argument-type]
              encoding_state_to_events_fn=(
-                 note_sequences.note_encoding_state_to_events
+                 note_sequences.note_encoding_state_to_events  # pyrefly: ignore[bad-argument-type]
                  if include_ties else None)))
 
     yield {
@@ -196,7 +196,7 @@ def tokenize_transcription_example(
       args.append(input_record[id_feature_key])
 
     ds = tf.data.Dataset.from_generator(
-        tokenize,
+        tokenize,  # pyrefly: ignore[bad-argument-type]
         output_signature={
             'inputs':
                 tf.TensorSpec(
@@ -339,9 +339,9 @@ def tokenize_example_with_program_lookup(
              event_values=values,
              encode_event_fn=note_sequences.note_event_data_to_events,
              codec=codec,
-             frame_times=frame_times,
+             frame_times=frame_times,  # pyrefly: ignore[bad-argument-type]
              encoding_state_to_events_fn=(
-                 note_sequences.note_encoding_state_to_events
+                 note_sequences.note_encoding_state_to_events  # pyrefly: ignore[bad-argument-type]
                  if include_ties else None)))
 
     yield {
@@ -365,7 +365,7 @@ def tokenize_example_with_program_lookup(
       args.append(input_record[id_feature_key])
 
     ds = tf.data.Dataset.from_generator(
-        tokenize,
+        tokenize,  # pyrefly: ignore[bad-argument-type]
         output_signature={
             'inputs':
                 tf.TensorSpec(
@@ -556,9 +556,9 @@ def tokenize_slakh_example(
              event_values=values,
              encode_event_fn=note_sequences.note_event_data_to_events,
              codec=codec,
-             frame_times=frame_times,
+             frame_times=frame_times,  # pyrefly: ignore[bad-argument-type]
              encoding_state_to_events_fn=(
-                 note_sequences.note_encoding_state_to_events
+                 note_sequences.note_encoding_state_to_events  # pyrefly: ignore[bad-argument-type]
                  if include_ties else None)))
 
     yield {
@@ -574,7 +574,7 @@ def tokenize_slakh_example(
 
   def process_record(input_record):
     ds = tf.data.Dataset.from_generator(
-        tokenize,
+        tokenize,  # pyrefly: ignore[bad-argument-type]
         output_signature={
             'inputs':
                 tf.TensorSpec(
