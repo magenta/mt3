@@ -218,7 +218,7 @@ class Decoder(nn.Module):
         num_embeddings=cfg.vocab_size,
         features=cfg.emb_dim,
         dtype=cfg.dtype,
-        attend_dtype=jnp.float32,  # for logit training stability
+        attend_dtype=jnp.float32,  # for logit training stability  # pyrefly: ignore[bad-argument-type]
         embedding_init=nn.initializers.normal(stddev=1.0),
         one_hot=True,
         name='token_embedder')(decoder_input_tokens.astype('int32'))
@@ -255,7 +255,7 @@ class Decoder(nn.Module):
     else:
       logits = layers.DenseGeneral(
           cfg.vocab_size,
-          dtype=jnp.float32,  # Use float32 for stabiliity.
+          dtype=jnp.float32,  # Use float32 for stabiliity.  # pyrefly: ignore[bad-argument-type]
           kernel_axes=('embed', 'vocab'),
           name='logits_dense')(
               y)

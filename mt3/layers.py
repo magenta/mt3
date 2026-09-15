@@ -50,7 +50,7 @@ default_embed_init = nn.initializers.variance_scaling(
 
 def sinusoidal(min_scale: float = 1.0,
                max_scale: float = 10000.0,
-               dtype: DType = jnp.float32) -> Initializer:
+               dtype: DType = jnp.float32) -> Initializer:  # pyrefly: ignore[bad-function-definition]
   """Creates 1D Sinusoidal Position Embedding Initializer.
 
   Args:
@@ -89,7 +89,7 @@ def dot_product_attention(query: Array,
                           dropout_rng: Optional[PRNGKey] = None,
                           dropout_rate: float = 0.,
                           deterministic: bool = False,
-                          dtype: DType = jnp.float32,
+                          dtype: DType = jnp.float32,  # pyrefly: ignore[bad-function-definition]
                           float32_logits: bool = False):
   """Computes dot-product attention given query, key, and value.
 
@@ -177,7 +177,7 @@ class MultiHeadDotProductAttention(nn.Module):
 
   num_heads: int
   head_dim: int
-  dtype: DType = jnp.float32
+  dtype: DType = jnp.float32  # pyrefly: ignore[bad-assignment]
   dropout_rate: float = 0.
   kernel_init: Initializer = nn.initializers.variance_scaling(
       1.0, 'fan_in', 'normal')
@@ -381,7 +381,7 @@ class DenseGeneral(nn.Module):
   """
   features: Union[Iterable[int], int]
   axis: Union[Iterable[int], int] = -1
-  dtype: DType = jnp.float32
+  dtype: DType = jnp.float32  # pyrefly: ignore[bad-assignment]
   kernel_init: Initializer = nn.initializers.variance_scaling(
       1.0, 'fan_in', 'truncated_normal')
   kernel_axes: Tuple[str, ...] = ()
@@ -500,7 +500,7 @@ class Embed(nn.Module):
   num_embeddings: int
   features: int
   cast_input_dtype: Optional[DType] = None
-  dtype: DType = jnp.float32
+  dtype: DType = jnp.float32  # pyrefly: ignore[bad-assignment]
   attend_dtype: Optional[DType] = None
   embedding_init: Initializer = default_embed_init
   one_hot: bool = False
@@ -564,7 +564,7 @@ class FixedEmbed(nn.Module):
   features: int
   max_length: int = 2048
   embedding_init: Initializer = sinusoidal()
-  dtype: jnp.dtype = jnp.float32
+  dtype: jnp.dtype = jnp.float32  # pyrefly: ignore[bad-assignment]
 
   def setup(self):
     # The key is set to None because sinusoid init is deterministic.
@@ -628,7 +628,7 @@ def make_attention_mask(query_input: Array,
                         key_input: Array,
                         pairwise_fn: Callable = jnp.multiply,
                         extra_batch_dims: int = 0,
-                        dtype: DType = jnp.float32) -> Array:
+                        dtype: DType = jnp.float32) -> Array:  # pyrefly: ignore[bad-function-definition]
   """Mask-making helper for attention weights.
 
   In case of 1d inputs (i.e., `[batch, len_q]`, `[batch, len_kv]`, the
@@ -661,7 +661,7 @@ def make_attention_mask(query_input: Array,
 
 def make_causal_mask(x: Array,
                      extra_batch_dims: int = 0,
-                     dtype: DType = jnp.float32) -> Array:
+                     dtype: DType = jnp.float32) -> Array:  # pyrefly: ignore[bad-function-definition]
   """Make a causal mask for self-attention.
 
   In case of 1d inputs (i.e., `[batch, len]`, the self-attention weights
@@ -690,7 +690,7 @@ def make_causal_mask(x: Array,
       dtype=dtype)
 
 
-def combine_masks(*masks: Optional[Array], dtype: DType = jnp.float32):
+def combine_masks(*masks: Optional[Array], dtype: DType = jnp.float32):  # pyrefly: ignore[bad-function-definition]
   """Combine attention masks.
 
   Args:
