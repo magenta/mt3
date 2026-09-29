@@ -704,7 +704,7 @@ def combine_masks(*masks: Optional[Array], dtype: DType = jnp.float32):  # pyref
   if not masks:
     return None
   assert all(map(lambda x: x.ndim == masks[0].ndim, masks)), (  # pyrefly: ignore[missing-attribute]
-      f'masks must have same rank: {tuple(map(lambda x: x.ndim, masks))}')
+      f'masks must have same rank: {tuple(map(lambda x: x.ndim, masks))}')  # pyrefly: ignore[missing-attribute]
   mask, *other_masks = masks
   for other_mask in other_masks:
     mask = jnp.logical_and(mask, other_mask)  # pyrefly: ignore[bad-argument-type]
@@ -724,7 +724,7 @@ def combine_biases(*masks: Optional[Array]):
   if not masks:
     return None
   assert all(map(lambda x: x.ndim == masks[0].ndim, masks)), (  # pyrefly: ignore[missing-attribute]
-      f'masks must have same rank: {tuple(map(lambda x: x.ndim, masks))}')
+      f'masks must have same rank: {tuple(map(lambda x: x.ndim, masks))}')  # pyrefly: ignore[missing-attribute]
   mask, *other_masks = masks
   for other_mask in other_masks:
     mask = mask + other_mask  # pyrefly: ignore[unsupported-operation]

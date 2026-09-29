@@ -88,4 +88,4 @@ def mix_transcription_examples(
     return ex
   ds = ds.map(mix_targets, num_parallel_calls=tf.data.experimental.AUTOTUNE)
 
-  return ds
+  return ds  # pyrefly: ignore[bad-return]
