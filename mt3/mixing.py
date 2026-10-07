@@ -62,7 +62,7 @@ def mix_transcription_examples(
     return ds  # pyrefly: ignore[bad-return]
 
   # TODO(iansimon): is there a way to use seqio's seed?
-  ds = tf.data.Dataset.sample_from_datasets([  # pyrefly: ignore[bad-argument-type]
+  ds = tf.data.Dataset.sample_from_datasets([
       ds.shuffle(
           buffer_size=shuffle_buffer_size // max_examples_per_mix
       ).padded_batch(batch_size=i) for i in range(1, max_examples_per_mix + 1)

@@ -68,7 +68,7 @@ def write_inferences_to_file(
   else:
     encoding_spec = note_sequences.NoteEncodingWithTiesSpec
 
-  codec = vocabularies.build_codec(vocab_config)  # pyrefly: ignore[bad-argument-type]
+  codec = vocabularies.build_codec(vocab_config)
 
   targets = []
   predictions = []

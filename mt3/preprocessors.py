@@ -196,7 +196,7 @@ def tokenize_transcription_example(
       args.append(input_record[id_feature_key])
 
     ds = tf.data.Dataset.from_generator(
-        tokenize,  # pyrefly: ignore[bad-argument-type]
+        tokenize,
         output_signature={
             'inputs':
                 tf.TensorSpec(
@@ -365,7 +365,7 @@ def tokenize_example_with_program_lookup(
       args.append(input_record[id_feature_key])
 
     ds = tf.data.Dataset.from_generator(
-        tokenize,  # pyrefly: ignore[bad-argument-type]
+        tokenize,
         output_signature={
             'inputs':
                 tf.TensorSpec(
@@ -574,7 +574,7 @@ def tokenize_slakh_example(
 
   def process_record(input_record):
     ds = tf.data.Dataset.from_generator(
-        tokenize,  # pyrefly: ignore[bad-argument-type]
+        tokenize,
         output_signature={
             'inputs':
                 tf.TensorSpec(

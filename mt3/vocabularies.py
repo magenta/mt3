@@ -235,8 +235,8 @@ class GenericTokenVocabulary(seqio.Vocabulary):
          tf.debugging.assert_greater_equal(
              token_ids, tf.cast(0, token_ids.dtype))
          ]):
-      tf_ids = token_ids + self._num_special_tokens  # pyrefly: ignore[unsupported-operation]
-    return tf_ids  # pyrefly: ignore[bad-return]
+      tf_ids = token_ids + self._num_special_tokens
+    return tf_ids
 
   def _decode_tf(self, ids: tf.Tensor) -> tf.Tensor:
     """Decode in TensorFlow.
@@ -267,7 +267,7 @@ class GenericTokenVocabulary(seqio.Vocabulary):
             tf.logical_and(
                 tf.greater_equal(ids, self._num_special_tokens),
                 tf.less(ids, self._base_vocab_size)),
-            ids - self._num_special_tokens,  # pyrefly: ignore[unsupported-operation]
+            ids - self._num_special_tokens,
             DECODED_INVALID_ID))
 
   def __eq__(self, other):
