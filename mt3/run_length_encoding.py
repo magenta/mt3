@@ -405,7 +405,7 @@ def decode_events(
       continue
     if event.type == 'shift':
       cur_steps += event.value
-      cur_time = start_time + cur_steps / codec.steps_per_second
+      cur_time = state.current_time + cur_steps / codec.steps_per_second
       if max_time and cur_time > max_time:
         dropped_events = len(tokens) - token_idx
         break
