@@ -61,6 +61,9 @@ setuptools.setup(
         'License :: OSI Approved :: Apache Software License',
         'Topic :: Scientific/Engineering :: Artificial Intelligence',
     ],
+    extras_require={
+        'mlx': ['mlx'],
+    },
     tests_require=['pytest'],
     setup_requires=['pytest-runner'],
     keywords='music transcription machinelearning audio',

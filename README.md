@@ -12,6 +12,25 @@ either a) the piano transcription model described in [our ISMIR 2021 paper](http
 or b) the multi-instrument transcription model described in
 [our ICLR 2022 paper](https://openreview.net/pdf?id=iMSjopcOn0p).
 
+### Local inference on Apple Silicon (MLX)
+
+On Apple Silicon Macs, you can install the optional `mlx` dependency and use `mt3.mlx_inference.InferenceModel` as a fast drop-in replacement for the JAX inference model using the same pretrained T5X checkpoints:
+
+```bash
+pip install -e ".[mlx]"
+```
+
+```python
+import librosa
+import note_seq
+from mt3 import mlx_inference
+
+audio, _ = librosa.load('audio.wav', sr=16000, mono=True)
+model = mlx_inference.InferenceModel('checkpoints/mt3/', model_type='mt3')
+est_ns = model(audio)
+note_seq.sequence_proto_to_midi_file(est_ns, 'transcribed.mid')
+```
+
 
 ## Train a model
 
